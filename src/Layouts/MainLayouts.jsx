@@ -4,8 +4,8 @@ import Header from "../Shared/Header/Header";
 
 const MainLayouts = () => {
     return (
-        <div>
-            <Header></Header>
+        <div className="max-w-6xl mx-auto">
+      
           <Outlet></Outlet>
         </div>
     );

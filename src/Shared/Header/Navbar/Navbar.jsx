@@ -1,10 +1,95 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import userPic  from "../../../assets/user.png"
+import { useContext } from "react";
+import { AuthContext } from "../../../Pages/AuthProvider/AuthProvider";
+
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext)
+  const handleLogout = () => {
+    logOut()
+      .then()
+      .catch(err => {
+      console.log(err)
+    })
+  }
+    const navlinks = (
+      <>
+        <NavLink to={'/'}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "underline text-pink-600 " : ""
+          }
+        > Home</NavLink>
+        <NavLink to={'/About'}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "active" : ""
+          }
+        > About</NavLink>
+        <NavLink to={'/career'}
+          className={({ isActive, isPending }) =>
+            isPending ? "pending" : isActive ? "bg-pink-800" : ""
+          }
+        > Career</NavLink>
+      </>
+    );
     return (
-        <div>
-            <Link to={'/'}>Home</Link>
+      <div>
+        <div className="navbar bg-base-100">
+          <div className="navbar-start">
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost lg:hidden"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h8m-8 6h16"
+                  />
+                </svg>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow bg-base-100 rounded-box w-52 gap-4"
+              >
+                {navlinks}
+              </ul>
+            </div>
+          </div>
+          <div className="navbar-center hidden lg:flex">
+            <ul className="menu menu-horizontal px-1">{navlinks}</ul>
+          </div>
+          <div className="navbar-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img alt="Tailwind CSS Navbar component" src={userPic} />
+              </div>
+            </div>
+            {user ? (
+              <Link onClick={handleLogout}>
+                <a className="btn"> Log Out</a>
+              </Link>
+            ) : (
+              <Link to={"/login"}>
+                <button>Login</button>
+              </Link>
+            )}
+          </div>
         </div>
+      </div>
     );
 };
 
